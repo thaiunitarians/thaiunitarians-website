@@ -14,8 +14,8 @@ import { type navItem } from "../types/configDataTypes";
 // note: 1 level of dropdown is supported
 const navConfig: navItem[] = [
   {
-    text: "Overview",
-    link: "/overview/",
+    text: "เกี่ยวกับเรา",
+    link: "/about/",
   },
   {
     // get the categories used in blog posts, to put into a navbar dropdown
