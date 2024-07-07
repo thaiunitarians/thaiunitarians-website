@@ -11,13 +11,13 @@ import keystatic from "@keystatic/astro";
 // https://astro.build/config
 export default defineConfig({
   site: "https://thaiunitarians.org",
-  output: "hybrid",
+  // output: "hybrid",
   // adapter: netlify({
   //   imageCDN: false,
   // }),
-  redirects: {
-    "/admin": "/keystatic",
-  },
+  // redirects: {
+  //   "/admin": "/keystatic",
+  // },
   // i18n configuration must match src/config/translations.json.ts
   i18n: {
     defaultLocale: "en",
@@ -45,7 +45,7 @@ export default defineConfig({
     }),
     mdx(),
     react(),
-    keystatic(),
+    // keystatic(),
     tailwind(),
     sitemap(),
     compress(),
