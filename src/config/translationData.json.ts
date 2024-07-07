@@ -44,8 +44,9 @@ export const dataTranslations = {
  */
 export const textTranslations = {
   en: {
+    the_name: "The Unitarians in Thailand",
     hero_description:
-      "Get your blog running in a snap. Multiple pages and sections, i18n, animations, CMS - all ready to go.",
+      "We are Thai Unitarians, a liberal religion that embraces openness, diversity, and the search for truth through reason and compassion.",
     back_to_all_posts: "Back to all posts",
     related_posts: "Related Posts",
     share_this_post: "Share this post!",
@@ -54,8 +55,9 @@ export const textTranslations = {
     table_of_contents: "Table of Contents",
   },
   th: {
+    the_name: "กลุ่มชาวยูนิทาเรี่ยนในประเทศไทย",
     hero_description:
-      "เริ่มต้นเขียนบล็อกของคุณได้ในที่เดียว หลายหน้าและส่วน, i18n, ภาพเคลื่อนไหว, CMS - พร้อมใช้งานทันที",
+      "เราคือชาวยูนิทาเรี่ยนในประเทศไทย ศาสนาเสรีซึ่งยอมรับในความเปิดกว้าง ความหลากหลาย และการแสวงหาความจริงด้วยเหตุผลและความเข้าใจ",
     back_to_all_posts: "กลับไปที่บทความทั้งหมด",
     related_posts: "บทความที่เกี่ยวข้อง",
     share_this_post: "แชร์บทความนี้",

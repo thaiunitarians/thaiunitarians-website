@@ -22,15 +22,14 @@ const t = useTranslations(currLocale);
       data-aos="fade-down"
     >
       <h1 class="text-4xl font-semibold sm:text-5xl md:text-6xl lg:text-7xl">
-        Welcome to
-        <span class="main-text-gradient"> Blogsmith</span>
+        {t("the_name")}
       </h1>
       <p
         class="description mx-auto mt-6 max-w-xs text-pretty sm:max-w-sm md:max-w-lg"
       >
         {t("hero_description")}
       </p>
-      <form
+      <!-- <form
         id="hero-newsletter-form"
         name="hero-newsletter-form"
         class="mx-auto mt-4 flex max-w-lg flex-col gap-3 px-6 xs:flex-row"
@@ -52,7 +51,7 @@ const t = useTranslations(currLocale);
         />
 
         <Button variant="primary" type="submit">Subscribe</Button>
-      </form>
+      </form> -->
     </div>
   </div>
 </section>
