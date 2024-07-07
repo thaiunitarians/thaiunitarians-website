@@ -1,0 +1,85 @@
+---
+import { type CollectionEntry } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { Image } from "astro:assets";
+
+// components
+import Category from "@components/Category/Category.astro";
+
+// utils
+import { slugify, formatDate, humanize, categorify } from "@js/textUtils";
+import { getLocaleFromUrl } from "@js/localeUtils";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  showDescription?: boolean;
+  class?: string;
+  rest?: any; // catch-all for any additional parameters, such as "aria-label"
+}
+
+const {
+  post,
+  showDescription = false,
+  class: className,
+  ...rest
+} = Astro.props as Props;
+const { title, description, pubDate, heroImage, categories } = post.data;
+
+const currLocale = getLocaleFromUrl(Astro.url);
+---
+
+<div class=`flex flex-col ${className}` {...rest}>
+  <a href={getRelativeLocaleUrl(currLocale, `/blog/${post.slug}/`)}>
+    <p class="sr-only">{title}</p>
+    <div
+      class="shrink-0 justify-center overflow-hidden rounded-md border border-base-100 sm:justify-normal"
+    >
+      <figure>
+        <Image
+          src={heroImage}
+          alt={`cover for ${title}`}
+          height={700}
+          quality="high"
+          class="h-auto max-h-96 w-full object-cover transition-all duration-500 hover:scale-[1.02]"
+          transition:name={`blog-image-${post.slug}`}
+        />
+      </figure>
+    </div>
+  </a>
+  <div class="w-full">
+    <div class="mt-1 flex w-full flex-wrap justify-between">
+      <!-- categories -->
+      <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center gap-x-2 text-sm">
+          {categories.map((category) => <Category category={category} />)}
+        </div>
+      </div>
+
+      <!-- published date -->
+      <div class="text-xs opacity-70 xl:text-sm">
+        <div class="flex">
+          <p class="whitespace-nowrap">{formatDate(pubDate, currLocale)}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- title -->
+    <div class="mt-1">
+      <a
+        href={getRelativeLocaleUrl(currLocale, `/blog/${post.slug}/`)}
+        class="transition hover:text-primary-700"
+      >
+        <h2 class="inline text-lg font-semibold lg:text-xl">
+          {title}
+        </h2>
+      </a>
+    </div>
+
+    <!-- description -->
+    {
+      showDescription && (
+        <p class="description mt-1 text-sm lg:text-base">{description}</p>
+      )
+    }
+  </div>
+</div>

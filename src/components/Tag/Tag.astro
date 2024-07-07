@@ -1,0 +1,23 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+// utils
+import { tagify, slugify } from "@js/textUtils";
+import { getLocaleFromUrl } from "@js/localeUtils";
+
+const currLocale = getLocaleFromUrl(Astro.url);
+
+interface Props {
+  tag: string;
+  class?: string;
+}
+
+const { tag, class: className } = Astro.props as Props;
+---
+
+<a
+  href={getRelativeLocaleUrl(currLocale, `/tags/${slugify(tag)}/`)}
+  class={`inline-block hover:underline ${className}`}
+>
+  #{tagify(tag)}
+</a>

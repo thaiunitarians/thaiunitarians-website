@@ -1,0 +1,56 @@
+---
+import { type Page } from "astro";
+
+// layout
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+// components
+import PostCard from "@components/PostCard/PostCardMultiLink.astro";
+import Pagination from "@components/Pagination/Pagination.astro";
+
+// utils
+import { getAllPosts } from "@js/blogUtils";
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { defaultLocale } from "@config/siteSettings.json";
+
+export async function getStaticPaths({ paginate }) {
+  const posts = await getAllPosts(defaultLocale);
+
+  return paginate(posts, {
+    pageSize: 2,
+  });
+}
+
+const { page } = Astro.props as { page: Page };
+---
+
+<BaseLayout
+  title="Recent Blog Posts"
+  description="Recent Blog Posts Description"
+>
+  <section class="container">
+    <div class="mx-auto max-w-3xl pt-24 md:pt-36">
+      <h1 class="h1 text-center">Recent Blog Posts</h1>
+      <hr
+        class="mx-auto mt-4 max-w-[30%] rounded-full border-none bg-primary-600/50 pt-1"
+      />
+      <div class="mt-10 grid gap-4 md:grid-cols-2">
+        {
+          page.data.map((post) => (
+            <PostCard post={post} showDescription={false} />
+          ))
+        }
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-8 flex justify-center">
+        <Pagination
+          prevUrl={page.url.prev}
+          currPage={page.currentPage}
+          nextUrl={page.url.next}
+          lastPage={page.size}
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

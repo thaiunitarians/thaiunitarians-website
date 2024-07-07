@@ -1,0 +1,216 @@
+---
+import { type CollectionEntry, getEntries } from "astro:content";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+// for reading time estimate
+import { fromMarkdown } from "mdast-util-from-markdown";
+import { toString } from "mdast-util-to-string";
+import getReadingTime from "reading-time";
+
+// main layout
+import BaseLayout from "./BaseLayout.astro";
+
+// components
+import Category from "@components/Category/Category.astro";
+import Tag from "@components/Tag/Tag.astro";
+import Button from "@components/Button/Button.astro";
+import ShareButtons from "@components/ShareButtons/ShareButtons.astro";
+import RelatedPosts from "@components/RelatedPosts/RelatedPosts.astro";
+
+// utils
+import { formatDate, humanize, slugify } from "@js/textUtils";
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { useTranslations } from "@js/translationUtils";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  headings?: import("astro").MarkdownHeading[];
+}
+
+const { post } = Astro.props as Props;
+const {
+  title,
+  description,
+  authors,
+  pubDate,
+  updatedDate,
+  heroImage,
+  categories,
+  tags,
+} = post.data;
+
+const currLocale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(currLocale);
+const authorsData = await getEntries(authors);
+
+// get reading time estimate
+// replace all the "\n"s with spaces for proper reading time estimate
+const spacedMarkdown = post.body.replace(/\n/g, " ");
+const tree = fromMarkdown(spacedMarkdown);
+const markdownText = toString(tree);
+const readingTime = getReadingTime(markdownText);
+---
+
+<BaseLayout
+  type="blog"
+  title={title}
+  description={description}
+  heroImage={heroImage}
+  authorsData={authorsData}
+  postFrontmatter={post.data}
+>
+  <article class="container pt-24 md:pt-36" data-pagefind-body>
+    <!-- Blog post info -->
+    <div class="mx-auto flex max-w-[800px] flex-col items-center">
+      <div class="flex w-full">
+        <div class="mr-auto max-w-2xl">
+          <!-- categories -->
+          <div class="flex w-full gap-3 md:text-lg">
+            {categories.map((category) => <Category category={category} />)}
+          </div>
+
+          <!-- title -->
+          <h1 class="h1 mt-4">{title}</h1>
+
+          <!-- description -->
+          <p class="mt-3 text-sm opacity-70 md:text-base/5">
+            {description}
+          </p>
+        </div>
+      </div>
+
+      <!-- blog post main image -->
+      <div class="mt-6 overflow-hidden">
+        <Image
+          src={heroImage}
+          alt={`Cover for ${title}`}
+          width={1600}
+          quality="high"
+          class="max-h-[40vh] rounded-lg object-cover sm:max-h-[50vh] md:max-h-[60vh] lg:max-h-[50vh]"
+          loading="eager"
+          format="webp"
+          transition:name={`blog-image-${post.slug}`}
+        />
+      </div>
+
+      <!-- after blog post hero image -->
+      <div
+        class="mt-4 flex w-full flex-wrap items-center justify-between gap-4"
+      >
+        <div class="flex flex-wrap gap-4">
+          <!-- author info -->
+          {
+            authorsData.map((authorData) => (
+              <div class="mb-auto flex">
+                <figure>
+                  <Image
+                    src={authorData.data.avatar}
+                    alt={`${authorData.data.name} avatar`}
+                    width={100}
+                    quality="high"
+                    class="h-7 w-7 rounded-full object-cover"
+                  />
+                </figure>
+                <div class="my-auto ml-2">
+                  <a
+                    class="opacity-80 transition hover:text-primary-700"
+                    href={authorData.data.authorLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {authorData.data.name}
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="flex gap-4">
+          <!-- pubDate -->
+          <div class="flex items-center opacity-80">
+            <Icon name="tabler/calendar-event" class="mr-2 h-5 w-5" />
+            <time datetime={pubDate.toISOString()}
+              >{formatDate(pubDate, currLocale)}</time
+            >
+          </div>
+
+          <!-- Reading time -->
+          <div class="flex items-center opacity-80">
+            <Icon name="tabler/clock" class="mr-2 h-5 w-5" />
+            <p class="flex">
+              {`${Math.ceil(readingTime.minutes)} ${t("reading_time")}`}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="border-accent mt-4 w-full border-t-2" />
+    </div>
+
+    <!-- article content -->
+    <div class="mt-10 w-full">
+      <div class="mx-auto max-w-2xl">
+        <div class="text-base-content text-base">
+          {
+            updatedDate && (
+              <div class="mb-6 italic">
+                <time datetime={updatedDate.toISOString()}>
+                  {t("updated")}: {formatDate(updatedDate, currLocale)}
+                </time>
+              </div>
+            )
+          }
+          <section id="blog-post-content" class="prose mx-auto md:text-lg">
+            <slot />
+          </section>
+
+          <!-- Tags -->
+          <div class="mt-8 md:text-lg">
+            <div class="flex flex-wrap items-center gap-2">
+              <Icon name="tabler/tag" class="h-5 w-5" />
+              {tags.map((tag) => <Tag tag={tag} />)}
+            </div>
+          </div>
+
+          <!-- end of post, extra stuff (like share buttons) here -->
+          <hr class="border-accent my-4 w-full border-t-2" />
+          <div class="flex flex-col">
+            <h3 class="text-xl font-semibold">{t("share_this_post")}</h3>
+            <!-- socials -->
+            <div class="mt-2 flex w-full flex-wrap justify-center gap-2">
+              <ShareButtons
+                title={title}
+                url={Astro.url}
+                link={true}
+                class="flex-auto"
+              />
+            </div>
+          </div>
+
+          <!-- button to go back to all posts -->
+          <div class="mt-8 flex">
+            <Button
+              variant="ghost"
+              href={getRelativeLocaleUrl(currLocale, "/blog")}
+              arrow="left"
+              class="pl-0 text-lg font-semibold md:text-xl"
+            >
+              {t("back_to_all_posts")}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+  <aside class="container mt-6">
+    <div class="mx-auto max-w-2xl">
+      <h3 class="text-xl font-semibold">{t("related_posts")}</h3>
+      <div class="mt-1 grid gap-6 xs:grid-cols-2">
+        <RelatedPosts post={post} />
+      </div>
+    </div>
+  </aside>
+</BaseLayout>

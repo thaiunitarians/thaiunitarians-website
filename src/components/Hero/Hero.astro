@@ -1,0 +1,58 @@
+---
+// components
+import Button from "@components/Button/Button.astro";
+
+// utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { useTranslations } from "@js/translationUtils";
+
+const currLocale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(currLocale);
+---
+
+<section
+  id="hero"
+  class="relative mb-14 flex min-h-[60svh] w-full bg-gradient-to-b from-primary-200/10 from-10% via-primary-300/40 via-60% to-primary-600/60 pb-24"
+>
+  <!-- hero items -->
+  <div class="mx-auto flex items-center pt-16">
+    <!-- Hero text -->
+    <div
+      class="container mx-auto max-w-4xl gap-8 py-20 text-center md:pt-32"
+      data-aos="fade-down"
+    >
+      <h1 class="text-4xl font-semibold sm:text-5xl md:text-6xl lg:text-7xl">
+        Welcome to
+        <span class="main-text-gradient"> Blogsmith</span>
+      </h1>
+      <p
+        class="description mx-auto mt-6 max-w-xs text-pretty sm:max-w-sm md:max-w-lg"
+      >
+        {t("hero_description")}
+      </p>
+      <form
+        id="hero-newsletter-form"
+        name="hero-newsletter-form"
+        class="mx-auto mt-4 flex max-w-lg flex-col gap-3 px-6 xs:flex-row"
+        data-aos="fade-up"
+        data-aos-delay="0.7"
+      >
+        <label
+          for="hero-newsletter-email"
+          class="description mb-1 hidden text-base-100">*Email</label
+        >
+        <input
+          type="email"
+          class="form__input border-primary-600/60 focus:ring-offset-primary-200"
+          name="hero-newsletter-email"
+          id="hero-newsletter-email"
+          inputmode="email"
+          placeholder="Email"
+          required
+        />
+
+        <Button variant="primary" type="submit">Subscribe</Button>
+      </form>
+    </div>
+  </div>
+</section>

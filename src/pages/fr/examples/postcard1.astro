@@ -1,0 +1,54 @@
+---
+// layout
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+// components
+import Button from "@components/Button/Button.astro";
+import PostCard from "@components/PostCard/PostCard.astro";
+import Newsletter from "@components/Newsletter/Newsletter.astro";
+
+// utils
+import { getAllPosts, formatPosts } from "@js/blogUtils";
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { getTranslatedData } from "@js/translationUtils";
+
+// data
+const currLocale = getLocaleFromUrl(Astro.url);
+const siteData = getTranslatedData("siteData", currLocale);
+
+const posts = await getAllPosts(currLocale);
+const recentPosts = formatPosts(posts, { limit: 5 });
+---
+
+<BaseLayout title={siteData.title} description={siteData.description}>
+  <div class="container mt-10 pb-10 pt-24 md:pt-36">
+    <!-- Recent blogs -->
+    <div class="mx-auto max-w-3xl md:mt-12">
+      <h2 class="h2 text-center">Recent Blog Posts</h2>
+      <hr
+        class="mx-auto mt-4 max-w-[30%] rounded-full border-none bg-primary-600/50 pt-1"
+      />
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        {
+          recentPosts.map((post, idx) =>
+            // first post is large post card
+            idx === 0 ? (
+              <div class="md:col-span-2">
+                <PostCard post={post} showDescription={true} />
+              </div>
+            ) : (
+              <PostCard post={post} showDescription={true} />
+            ),
+          )
+        }
+      </div>
+    </div>
+
+    <!-- link to all posts -->
+    <div class="mt-12 flex justify-center">
+      <Button variant="outline" arrow="right" href="/blog/">All Posts</Button>
+    </div>
+  </div>
+
+  <Newsletter />
+</BaseLayout>

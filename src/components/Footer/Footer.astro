@@ -1,0 +1,69 @@
+---
+// components
+import FooterLink from "@components/Footer/FooterLink.astro";
+
+// utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { getTranslatedData } from "@js/translationUtils";
+
+// data
+const currLocale = getLocaleFromUrl(Astro.url);
+const siteData = getTranslatedData("siteData", currLocale);
+
+const today = new Date();
+---
+
+<div class="mt-20 bg-base-800">
+  <footer class="m-auto max-w-3xl px-4 pb-2 xs:px-10">
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+      <!-- Navigation -->
+      <div class="flex flex-col">
+        <h3 class="mb-2 mt-6 text-lg font-semibold text-base-100">
+          Navigation
+        </h3>
+        <FooterLink href="/blog/">Blog</FooterLink>
+        <FooterLink href="/categories/">Categories</FooterLink>
+        <FooterLink href="/categories/">About</FooterLink>
+        <FooterLink href="/contact/">Contact</FooterLink>
+      </div>
+
+      <!-- Legal -->
+      <div class="flex flex-col">
+        <h3 class="mb-2 mt-6 text-lg font-semibold text-base-100">Legal</h3>
+        <FooterLink href="https://cosmicthemes.com/license/" newTab={true}>
+          License
+        </FooterLink>
+        <FooterLink href="https://cosmicthemes.com/refund/" newTab={true}>
+          Refund policy
+        </FooterLink>
+        <FooterLink href="https://cosmicthemes.com/terms/" newTab={true}>
+          Terms of use
+        </FooterLink>
+        <FooterLink href="https://cosmicthemes.com/privacy/" newTab={true}>
+          Privacy policy
+        </FooterLink>
+        <FooterLink href="https://cosmicthemes.com/support/" newTab={true}>
+          Support
+        </FooterLink>
+      </div>
+
+      <!-- In the Know -->
+      <div class="flex flex-col">
+        <h3 class="mb-2 mt-6 text-lg font-semibold text-base-100">
+          In the Know
+        </h3>
+        <FooterLink href="https://twitter.com/BowTiedWebReapr" newTab={true}>
+          @BowTiedWebReapr
+        </FooterLink>
+        <FooterLink href="https://twitter.com/Cosmic_Themes" newTab={true}>
+          @Cosmic_Themes
+        </FooterLink>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center text-sm text-base-100/70">
+      &copy; {today.getFullYear()}
+      {" "}{siteData.name}. All rights reserved.
+    </div>
+  </footer>
+</div>

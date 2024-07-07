@@ -1,0 +1,30 @@
+---
+import { type CollectionEntry } from "astro:content";
+
+// components
+import PostCard from "@components/PostCard/PostCardMultiLink.astro";
+
+// utils
+import { getAllPosts, arePostsRelated } from "@js/blogUtils";
+import { getLocaleFromUrl } from "@js/localeUtils";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+
+const currLocale = getLocaleFromUrl(Astro.url);
+const allPosts = await getAllPosts(currLocale);
+
+// get 2 related posts
+const relatedPosts = allPosts
+  .filter((otherPost) => arePostsRelated(post, otherPost))
+  .slice(0, 2);
+---
+
+{
+  relatedPosts.map((post, idx) => (
+    <PostCard post={post} showDescription={false} />
+  ))
+}
