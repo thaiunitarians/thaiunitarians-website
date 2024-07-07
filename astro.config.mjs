@@ -6,22 +6,22 @@ import mdx from "@astrojs/mdx";
 import AutoImport from "astro-auto-import";
 import react from "@astrojs/react";
 import keystatic from "@keystatic/astro";
-import netlify from "@astrojs/netlify";
+// import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://blogsmith-pro-cosmic.netlify.app",
+  site: "https://thaiunitarians.org",
   output: "hybrid",
-  adapter: netlify({
-    imageCDN: false,
-  }),
+  // adapter: netlify({
+  //   imageCDN: false,
+  // }),
   redirects: {
     "/admin": "/keystatic",
   },
   // i18n configuration must match src/config/translations.json.ts
   i18n: {
     defaultLocale: "en",
-    locales: ["en", "fr"],
+    locales: ["en", "th"],
     routing: {
       prefixDefaultLocale: false,
     },

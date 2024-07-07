@@ -8,18 +8,18 @@
  * Every {Data} key must exist in the below object
  */
 import siteDataEn from "./en/siteData.json";
-import siteDataFr from "./fr/siteData.json";
+import siteDataTh from "./th/siteData.json";
 import navDataEn from "./en/navData.json";
-import navDataFr from "./fr/navData.json";
+import navDataTh from "./th/navData.json";
 
 export const dataTranslations = {
   en: {
     siteData: siteDataEn,
     navData: navDataEn,
   },
-  fr: {
-    siteData: siteDataFr,
-    navData: navDataFr,
+  th: {
+    siteData: siteDataTh,
+    navData: navDataTh,
   },
 } as const;
 
@@ -53,15 +53,15 @@ export const textTranslations = {
     reading_time: "min read",
     table_of_contents: "Table of Contents",
   },
-  fr: {
+  th: {
     hero_description:
-      "Je ne parle pas vraiment français donc j'utilise Google Translate pour quelques parties de cette démo.",
-    back_to_all_posts: "Retour à tous les articles",
-    related_posts: "Articles Similaires",
-    share_this_post: "Partager cette publication!",
-    updated: "Mis à jour",
-    reading_time: "min de lecture",
-    table_of_contents: "Table des Matières",
+      "เริ่มต้นเขียนบล็อกของคุณได้ในที่เดียว หลายหน้าและส่วน, i18n, ภาพเคลื่อนไหว, CMS - พร้อมใช้งานทันที",
+    back_to_all_posts: "กลับไปที่บทความทั้งหมด",
+    related_posts: "บทความที่เกี่ยวข้อง",
+    share_this_post: "แชร์บทความนี้",
+    updated: "อัพเดทล่าสุด",
+    reading_time: "เวลาอ่าน",
+    table_of_contents: "สารบัญ",
   },
 } as const;
 
@@ -78,7 +78,7 @@ export const routeTranslations = {
   en: {
     overviewKey: "overview",
   },
-  fr: {
-    overviewKey: "apercu",
+  th: {
+    overviewKey: "overview",
   },
 } as const;

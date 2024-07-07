@@ -11,7 +11,7 @@ import { getTranslatedData } from "@js/translationUtils";
 const siteData = getTranslatedData("siteData", defaultLocale);
 
 // you can switch the RSS locale here to something else if desired
-const rssLocale = "fr";
+const rssLocale = "th";
 
 // this is needed for getAuthorName() and getAuthorEmail() below
 const authors: CollectionEntry<"authors">[] = await getCollection("authors");

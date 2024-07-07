@@ -12,7 +12,7 @@ import { getAllPosts } from "@js/blogUtils";
 import { defaultLocale } from "@config/siteSettings.json";
 
 export async function getStaticPaths() {
-  const posts = await getAllPosts("fr");
+  const posts = await getAllPosts("th");
 
   return posts.map((post) => ({
     params: { slug: post.slug },

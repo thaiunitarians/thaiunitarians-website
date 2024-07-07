@@ -22,7 +22,7 @@ export async function getStaticPaths() {
   );
 
   // get rid of pages from other languages and remove locale from slug
-  const filteredPages = filterCollectionByLanguage(otherPages, "fr");
+  const filteredPages = filterCollectionByLanguage(otherPages, "th");
 
   return filteredPages.map((page) => ({
     params: { page: page.slug },

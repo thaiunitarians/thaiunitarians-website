@@ -14,7 +14,7 @@ import { getLocaleFromUrl } from "@js/localeUtils";
 import { defaultLocale } from "@config/siteSettings.json";
 
 export async function getStaticPaths({ paginate }) {
-  const posts = await getAllPosts("fr");
+  const posts = await getAllPosts("th");
 
   return paginate(posts, {
     pageSize: 2,

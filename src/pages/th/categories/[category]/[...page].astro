@@ -16,7 +16,7 @@ import { defaultLocale } from "@config/siteSettings.json";
 
 // generate pagination for tag pages if there are a bunch of posts for a single tag
 export async function getStaticPaths({ paginate }) {
-  const posts = await getAllPosts("fr");
+  const posts = await getAllPosts("th");
 
   // get all tags from the posts
   const allCategories = posts.map((post) => post.data.categories).flat();
